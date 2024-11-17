@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 
 export const register = async (req , res) =>{
     try {
-        const [fullname , email, phoneNumber , password , role] = req.body;
+        const {fullname , email, phoneNumber , password , role} = req.body;
         if(!fullname || !email || !password || !phoneNumber || !role){
             return res.status(400).json({
                 message : "Something is wrong or Missing",
@@ -36,7 +36,8 @@ export const register = async (req , res) =>{
         })
 
         return res.status(201).json({
-            message: "Account Created Successfully."
+            message: "Account Created Successfully.",
+            success : true
         })
     } catch (error) {
         console.log('User Register is invalid',error)
@@ -46,7 +47,7 @@ export const register = async (req , res) =>{
 
 export const login = async (req , res) => {
     try {
-            const[email , password , role] = req.body;
+            const {email , password , role} = req.body;
             if(!email || !password || !role){
                 return res.status(400).json({
                     message : "Something is missing",
