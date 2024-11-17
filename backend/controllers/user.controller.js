@@ -10,6 +10,7 @@ import cookieParser from "cookie-parser";
 export const register = async (req , res) =>{
     try {
         const {fullname , email, phoneNumber , password , role} = req.body;
+        
         if(!fullname || !email || !password || !phoneNumber || !role){
             return res.status(400).json({
                 message : "Something is wrong or Missing",
