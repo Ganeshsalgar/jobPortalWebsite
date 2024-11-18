@@ -6,6 +6,7 @@ import userRoute from './routes/user.route.js';
 import connectDB from './utils/db.js';
 import companyRouter from './routes/company.route.js';
 import jobsRouter from './routes/job.route.js';
+import ApplicationRouter from './routes/application.route.js';
 
 const app  = express();
 
@@ -33,6 +34,10 @@ app.use("/api/v1/user", userRoute);
 app.use("/api/v1/company", companyRouter)
 
 app.use("/api/v1/job" , jobsRouter)
+
+app.use("/api/v1/application" , ApplicationRouter)
+
+
 //https://localhost:8000/api/v1/user/register
 
 
