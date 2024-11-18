@@ -4,6 +4,7 @@ import cors from 'cors'
 import dotev, { configDotenv } from "dotenv"
 import userRoute from './routes/user.route.js';
 import connectDB from './utils/db.js';
+import companyRouter from './routes/company.route.js';
 
 const app  = express();
 
@@ -27,6 +28,8 @@ const PORT = process.env.PORT ||3000;
 
 // api's 
 app.use("/api/v1/user", userRoute);
+
+app.use("/api/v1/company", companyRouter)
 
 //https://localhost:8000/api/v1/user/register
 
