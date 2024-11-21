@@ -17,17 +17,29 @@ const Navbar = () => {
         </div>
         <div className="flex items-center gap-12">
           <ul className="flex font-medium items-center gap-5">
-            {/* <li><Link>Home</Link></li>
-                <li><Link>Jobs</Link></li>
-                <li><Link>Browse</Link></li> */}
-            <li>Home</li>
+            <li>
+              <Link to={'/'}>Home</Link>
+            </li>
+            <li>
+              <Link to={'/jobs'}>Jobs</Link>
+            </li>
+            <li>
+              <Link to={'/browse'}>Browse</Link>
+            </li>
+            {/* <li>Home</li>
             <li>Jobs</li>
-            <li>Browse</li>
+            <li>Browse</li> */}
           </ul>
           {!user ? (
             <div className="flex items-center gap-5">
-              <Link to="/login"><Button variant="outline" className="bg-gray-300">LogIn</Button></Link>
-              <Link to="/signup"><Button>SignUp</Button></Link>
+              <Link to="/login">
+                <Button variant="outline" className="bg-gray-300">
+                  LogIn
+                </Button>
+              </Link>
+              <Link to="/signup">
+                <Button>SignUp</Button>
+              </Link>
             </div>
           ) : (
             <Popover>
