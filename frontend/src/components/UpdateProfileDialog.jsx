@@ -23,12 +23,12 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
 
   const[input , setInput] = useState(
     {
-        fullname:user?.fullname,
-        email:user?.email,
-        phoneNumber:user?.phoneNumber,
-        bio: user?.bio,
-        skills:user?.profile?.skills?.map(skill => skill),
-        file:user?.profile?.resume
+        fullname:user?.fullname || "",
+        email:user?.email || "",
+        phoneNumber:user?.phoneNumber || "",
+        bio: user?.bio || '',
+        skills:user?.profile?.skills?.map(skill => skill) || "",
+        file:user?.profile?.resume || ""
     }
   );
 
@@ -46,9 +46,9 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
   const submitHandler = async  (e) =>{
     e.preventDefault();
     const formData = new FormData();
-    formData.append("fullName", input.fullname);
+    formData.append("fullname", input.fullname);
     formData.append("email", input.email);
-    formData.append("PhoneNumber", input.phoneNumber);
+    formData.append("phoneNumber", input.phoneNumber);
     formData.append("bio", input.bio);
     formData.append("skills", input.skills);
     
@@ -64,7 +64,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
             },
             withCredentials:true
         });
-        if(Eraser.data.success){
+        if(res.data.success){
             dispatch(setUser(res.data.user))
             toast.success(res.data.message)
         }
