@@ -1,2 +1,2 @@
 # jobPortalWebsite
-Creating a  new job protal fror the developer
+Creating a  new job protal for the developer
