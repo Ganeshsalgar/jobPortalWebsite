@@ -3,6 +3,8 @@ import  { User } from "../models/user.models.js"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
+import getDataUri from "../utils/datauri.js";
+import cloudinary from "../utils/cloudinary.js";
 
 
 
@@ -18,6 +20,10 @@ export const register = async (req , res) =>{
                 success : false
             });
         };
+        const file = req.file;
+        const fileUri = getDataUri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+
        
         const user = await User.findOne({email});
         if(user ){
@@ -36,6 +42,9 @@ export const register = async (req , res) =>{
             phoneNumber,
             password: hashedPassword,
             role,
+            profile:{
+                profilePhoto:cloudResponse.secure_url,
+            }
         })
 
         return res.status(201).json({
@@ -123,7 +132,9 @@ export const updateProfile = async (req, res) => {
         
         const file = req.file;
         // cloudinary ayega idhar
+        const fileUri =getDataUri(file);
         
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
 
         let skillsArray;
         if(skills){
@@ -146,7 +157,10 @@ export const updateProfile = async (req, res) => {
         if(skills) user.profile.skills = skillsArray
       
         // resume comes later here...
-        
+        if(cloudResponse){
+            user.profile.resume = cloudResponse.secure_url
+            user.profile.resumeOriginalName = file.originalname
+        }
 
 
         await user.save();
