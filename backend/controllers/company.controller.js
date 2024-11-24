@@ -1,4 +1,6 @@
 import { Company } from "../models/company.models.js";
+import cloudinary from "../utils/cloudinary.js";
+import getDataUri from "../utils/datauri.js";
 
 export const registerCompany = async (req, res) => {
   try {
@@ -47,10 +49,10 @@ export const getCompany = async (req, res) => {
       });
     }
     return res.status(200).json({
-        message : 'Company Date fetch successfully.',
-        companies,
-        success: true
-      })
+      message: "Company Date fetch successfully.",
+      companies,
+      success: true,
+    });
   } catch (error) {
     console.log("Company is not found.", error);
   }
@@ -81,34 +83,32 @@ export const getCompanyById = async (req, res) => {
 export const updateCompany = async (req, res) => {
   try {
     const { name, description, website, location } = req.body;
-    if (!name) {
-      return res.status(400).json({
-        message: "Name is requied for company.",
-        success: false,
-      });
-    }
 
     const file = req.file;
     //cloudinary se ayege
+    const fileUri = getDataUri(file);
+    const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
 
-    const updateData = { name, description, website, location };
+    const logo = cloudResponse.secure_url;
+
+    const updateData = { name, description, website, location, logo };
 
     const company = await Company.findByIdAndUpdate(req.params.id, updateData, {
       new: true,
     });
 
-    if(!company){
-        return res.status(404).json({
-            message: "company not found at last",
-            success : false
-        })
+    if (!company) {
+      return res.status(404).json({
+        message: "company not found at last",
+        success: false,
+      });
     }
 
     return res.status(200).json({
-        message:'Update Company information SuccessFully',
-        company,
-        success : true
-    })
+      message: "Update Company information SuccessFully",
+      company,
+      success: true,
+    });
   } catch (error) {
     console.log("update company is failed. ", error);
   }
